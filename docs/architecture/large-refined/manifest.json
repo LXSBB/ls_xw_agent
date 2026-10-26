@@ -1,0 +1,49 @@
+{
+  "date": "2026-10-23",
+  "fileKey": "aWaXku9UJ1Z8yNxp7Xjh06",
+  "scope": "Original 05 and 06 root sections updated in place; application code unchanged.",
+  "verification": {
+    "visual_review": "Both full diagrams inspected",
+    "text_overlap": 0,
+    "out_of_bounds": 0,
+    "source_syntax": "passed"
+  },
+  "views": [
+    {
+      "key": "05-agent-components",
+      "title": "05  /  Agent 组件与运行架构",
+      "nodeId": "23:372",
+      "url": "https://www.figma.com/board/aWaXku9UJ1Z8yNxp7Xjh06?node-id=23-372",
+      "backupNodeId": "39:697",
+      "backupUrl": "https://www.figma.com/board/aWaXku9UJ1Z8yNxp7Xjh06?node-id=39-697",
+      "png": "05-agent-components.png",
+      "source": "05-agent-components.figjam.js",
+      "canvasSize": [
+        3600,
+        3820
+      ],
+      "pngSize": [
+        3680,
+        3900
+      ]
+    },
+    {
+      "key": "06-tech-stack-delivery",
+      "title": "06  /  开发技术栈与交付部署",
+      "nodeId": "29:481",
+      "url": "https://www.figma.com/board/aWaXku9UJ1Z8yNxp7Xjh06?node-id=29-481",
+      "backupNodeId": "39:903",
+      "backupUrl": "https://www.figma.com/board/aWaXku9UJ1Z8yNxp7Xjh06?node-id=39-903",
+      "png": "06-tech-stack-delivery.png",
+      "source": "06-tech-stack-delivery.figjam.js",
+      "canvasSize": [
+        3600,
+        3800
+      ],
+      "pngSize": [
+        3680,
+        3880
+      ]
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "name": "06 开发者技术栈与交付",
+  "title": "Agent 平台 · 开发技术栈与交付架构",
+  "subtitle": "面向开发者：用什么 → 如何开发 → 如何构建 → 如何部署｜业务无关，基于当前 Java 项目",
+  "position": {
+    "x": 10280,
+    "y": -3700
+  },
+  "width": 3400,
+  "height": 4500,
+  "stack": [
+    [
+      "backend",
+      "服务与构建  [现有]",
+      "Java 21 · Maven 3.9.x\nSpring Boot 4.1.1 · Web MVC\nBean Validation · 可执行 JAR\n首版沿用模块化单体服务",
+      "existing"
+    ],
+    [
+      "ai",
+      "Agent 与模型接入  [现有]",
+      "Spring AI 2.0.1 · BOM 管理\nChatModel + ToolCallingManager\n@Tool / ToolCallback + 业务适配器\n调用外部模型 API，无需本机 GPU",
+      "existing"
+    ],
+    [
+      "frontend",
+      "交互与客户端  [现有 / 扩展]",
+      "原生 HTML / CSS / JavaScript\nREST 已有；SSE 按交互需求扩展\n可嵌入团队现有管理端\n当前页面无需 Node 前端构建",
+      "existing"
+    ],
+    [
+      "persistence",
+      "持久化  [建议新增]",
+      "PostgreSQL + Spring JDBC\nFlyway 管理数据库变更\n会话、任务、请求与操作记录\n唯一约束 + 事务 + 版本更新",
+      "new"
+    ],
+    [
+      "security",
+      "身份与授权  [建议新增]",
+      "Spring Security + IAM 适配器\n逐请求绑定用户、租户与权限\nIAM 支持 JWT 时使用 Resource Server\n其他 Token 按现有协议适配",
+      "new"
+    ],
+    [
+      "observe",
+      "可观测性  [部分已有]",
+      "已有：Actuator health 与基础日志\n新增：Micrometer → Prometheus 指标\nOpenTelemetry 链路 → 团队监控平台\nrequestId / taskId 关联日志与调用",
+      "new"
+    ]
+  ],
+  "optional": "按需引入：RAG = Spring AI + EmbeddingModel + pgvector；Redis = 热缓存 / 分布式限流；Outbox / MQ = 异步投递；MCP = 工具接入协议。",
+  "steps": [
+    [
+      "contracts",
+      "01  定义契约与身份",
+      "api/ · auth/  [建议职责]\n请求、结果、错误码与范围策略\n接入真实登录上下文\n确认操作权限与接口契约"
+    ],
+    [
+      "storage",
+      "02  建立持久状态",
+      "persistence/ · db/migration/\nsession / task / request / operation\n唯一约束与原子受理\n任务版本、过期与恢复策略"
+    ],
+    [
+      "tools",
+      "03  封装工具边界",
+      "tools/ · 业务 API 适配器\n@Tool → 参数校验 → 鉴权\nAPI 超时、业务错误与结果核实\n读写区分，未知写入不自动重试"
+    ],
+    [
+      "orchestration",
+      "04  实现场景编排",
+      "agent/  [在现有代码上拆分]\n领域门控 → Skill / Workflow\n有界 ReAct + 工具结果校验\n轮次、调用数与总耗时预算"
+    ],
+    [
+      "response",
+      "05  接入会话与界面",
+      "api/ · static/ 或既有前端\n服务端保存会话与任务状态\n结构化回复、澄清与操作状态\n浏览器不持有模型服务凭证"
+    ],
+    [
+      "validation",
+      "06  联调与上线验收",
+      "Maven 构建 + 真实模型 / 工具联调\n越权、重复提交、超时与恢复\n记录路由正确率、延迟与调用成本\n构建通过不能替代功能验收"
+    ]
+  ],
+  "runbook": [
+    [
+      "local",
+      "当前本地启动",
+      "set -a\nsource .env\nset +a\nmvn spring-boot:run\n打开 http://127.0.0.1:8080"
+    ],
+    [
+      "jar",
+      "当前构建与 JAR 运行",
+      "mvn clean verify\njava -jar target/spring-ai-react-demo-0.0.1-SNAPSHOT.jar\n沿用已加载的环境变量。\n当前无自动化测试，verify 主要验证构建。"
+    ],
+    [
+      "deliverables",
+      "上线前需要编写的文件",
+      "Dockerfile · compose.yaml · .dockerignore\napplication-prod.yml · db/migration/\nCI 流水线配置 · 发布与回滚说明\n镜像示例（Dockerfile 完成后）：\ndocker build -t agent:VERSION ."
+    ]
+  ],
+  "pipeline": [
+    [
+      "git",
+      "Git / 团队 CI",
+      "接入版本管理\n代码与配置资产版本化"
+    ],
+    [
+      "build",
+      "Build & Verify",
+      "mvn clean verify\n联调评估与镜像检查"
+    ],
+    [
+      "registry",
+      "OCI 镜像仓库",
+      "Docker build / push\n保留 Tag 与 Digest"
+    ],
+    [
+      "staging",
+      "测试环境验收",
+      "迁移校验与场景回归\n固定镜像版本准入"
+    ],
+    [
+      "release",
+      "发布与回滚",
+      "分批替换与健康检查\n保留前版镜像和配置"
+    ]
+  ],
+  "references": [
+    [
+      "Spring AI 版本兼容与 BOM",
+      "https://docs.spring.io/spring-ai/reference/getting-started.html"
+    ],
+    [
+      "Spring AI 工具调用",
+      "https://docs.spring.io/spring-ai/reference/api/tools.html"
+    ],
+    [
+      "Spring Boot SQL 支持",
+      "https://docs.spring.io/spring-boot/reference/data/sql.html"
+    ],
+    [
+      "Spring Security JWT",
+      "https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/jwt.html"
+    ],
+    [
+      "Spring Boot 容器镜像",
+      "https://docs.spring.io/spring-boot/reference/packaging/container-images/dockerfiles.html"
+    ],
+    [
+      "Spring Boot 可观测性",
+      "https://docs.spring.io/spring-boot/reference/actuator/observability.html"
+    ],
+    [
+      "Docker Compose 部署",
+      "https://docs.docker.com/compose/how-tos/production/"
+    ],
+    [
+      "Kubernetes Deployment",
+      "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/"
+    ],
+    [
+      "Spring AI pgvector",
+      "https://docs.spring.io/spring-ai/reference/api/vectordbs/pgvector.html"
+    ]
+  ],
+  "evidence": [
+    "pom.xml",
+    "src/main/resources/application.yml",
+    "README.md",
+    "src/main/java/com/example/reactdemo/api/AgentController.java",
+    "src/main/java/com/example/reactdemo/agent/ReActAgentService.java",
+    "src/main/resources/static/"
+  ]
+}

@@ -1,0 +1,50 @@
+flowchart TD
+subgraph ingress ["01 接入与会话"]
+  request["统一请求与 requestId"]
+  identity["登录、租户权限与会话归属校验"]
+  sessionState["服务端会话与任务版本"]
+  duplicate{"同一请求已受理？"}
+  replay["复用结果或返回处理中状态"]
+end
+subgraph routing ["02 识别与分发"]
+  trustedAction{"已校验的交互事件？"}
+  intent["领域、业务意图与参数提取"]
+  scope{"领域与能力判断"}
+  refusal["超出应用领域：范围说明"]
+  unavailable["领域内能力暂未支持"]
+  clarify["补全参数或选择对象"]
+end
+subgraph execution ["03 场景执行模块（Skill / Workflow）"]
+  workflow["任务状态机与场景执行"]
+  parameters{"必需参数完整且无歧义？"}
+  policy["操作权限、参数与工具白名单"]
+  action{"只读或写入操作？"}
+  queryTool["调用只读工具"]
+  writeFlow[["写入可靠性流程，见图 03"]]
+end
+subgraph delivery ["04 校验、保存与响应"]
+  validate["校验真实结果与回答引用"]
+  commitState["保存任务状态、结果与审计"]
+  respond["统一回复与 requestId"]
+end
+request --> identity --> sessionState --> duplicate
+duplicate -->|"已受理"| replay --> respond
+duplicate -->|"新请求"| trustedAction
+trustedAction -->|"有效按钮或选择事件"| workflow
+trustedAction -->|"自然语言"| intent --> scope
+scope -->|"范围之外"| refusal --> commitState
+scope -->|"领域内但未接入"| unavailable --> commitState
+scope -->|"意图不明"| clarify
+scope -->|"能力已支持"| workflow
+workflow --> parameters
+parameters -->|"缺失或多个候选"| clarify --> commitState
+parameters -->|"完整"| policy --> action
+action -->|"只读"| queryTool --> validate
+action -->|"写入"| writeFlow --> validate
+validate --> commitState --> respond
+style ingress fill:#F5F5F5,stroke:#B3B3B3
+style routing fill:#C2E5FF,stroke:#3DADFF
+style execution fill:#CDF4D3,stroke:#66D575
+style delivery fill:#C6FAF6,stroke:#5AD8CC
+style refusal fill:#FFCDC2,stroke:#FF7556
+style writeFlow fill:#FFE0C2,stroke:#FF9E42

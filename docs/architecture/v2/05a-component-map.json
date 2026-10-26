@@ -1,0 +1,323 @@
+{
+  "key": "05a-component-map",
+  "title": "05A  /  组件关系",
+  "subtitle": "一个应用进程中的职责边界，以及它依赖的外部系统。",
+  "position": {
+    "x": 6700,
+    "y": -7200
+  },
+  "width": 2400,
+  "height": 1350,
+  "footer": "目标设计 · 实线表示调用，虚线表示状态或配置依赖；响应沿调用关系返回。部署位置见 06C。",
+  "groups": [
+    {
+      "id": "app",
+      "x": 400,
+      "y": 260,
+      "w": 1430,
+      "h": 680,
+      "fill": "#F5FBFF",
+      "title": "Agent 应用 · 模块化单体"
+    }
+  ],
+  "cards": [
+    {
+      "id": "client",
+      "title": "访问渠道",
+      "body": "Web / App / API",
+      "x": 80,
+      "y": 370,
+      "w": 250,
+      "h": 150,
+      "accent": "#B3B3B3",
+      "parent": null,
+      "badge": null,
+      "fill": "#FFFFFF"
+    },
+    {
+      "id": "runner",
+      "title": "请求 Runner",
+      "body": "认证上下文 · 请求去重",
+      "x": 440,
+      "y": 370,
+      "w": 300,
+      "h": 150,
+      "accent": "#3DADFF",
+      "parent": "app",
+      "badge": null,
+      "fill": "#FFFFFF"
+    },
+    {
+      "id": "router",
+      "title": "根编排器",
+      "body": "范围门控 · 路由 · 预算",
+      "x": 850,
+      "y": 370,
+      "w": 430,
+      "h": 150,
+      "accent": "#3DADFF",
+      "parent": "app",
+      "badge": null,
+      "fill": "#FFFFFF"
+    },
+    {
+      "id": "model",
+      "title": "模型网关",
+      "body": "分类 / 规划 / 回复接口",
+      "x": 1440,
+      "y": 370,
+      "w": 350,
+      "h": 150,
+      "accent": "#874FFF",
+      "parent": "app",
+      "badge": null,
+      "fill": "#FFFFFF"
+    },
+    {
+      "id": "provider",
+      "title": "模型服务",
+      "body": "外部 API · 版本与配额",
+      "x": 1960,
+      "y": 370,
+      "w": 360,
+      "h": 150,
+      "accent": "#874FFF",
+      "parent": null,
+      "badge": null,
+      "fill": "#FFFFFF"
+    },
+    {
+      "id": "result",
+      "title": "结果与交互",
+      "body": "证据校验 · 保存后响应",
+      "x": 440,
+      "y": 660,
+      "w": 300,
+      "h": 150,
+      "accent": "#5AD8CC",
+      "parent": "app",
+      "badge": null,
+      "fill": "#FFFFFF"
+    },
+    {
+      "id": "runtime",
+      "title": "Skill Runtime",
+      "body": "Workflow / ReAct · 任务状态",
+      "x": 850,
+      "y": 660,
+      "w": 430,
+      "h": 150,
+      "accent": "#66D575",
+      "parent": "app",
+      "badge": null,
+      "fill": "#FFFFFF"
+    },
+    {
+      "id": "tools",
+      "title": "工具网关",
+      "body": "鉴权 · 读写分流 · 适配器",
+      "x": 1440,
+      "y": 660,
+      "w": 350,
+      "h": 150,
+      "accent": "#66D575",
+      "parent": "app",
+      "badge": null,
+      "fill": "#FFFFFF"
+    },
+    {
+      "id": "external",
+      "title": "外部业务系统",
+      "body": "业务规则与权威事实",
+      "x": 1960,
+      "y": 660,
+      "w": 360,
+      "h": 150,
+      "accent": "#B3B3B3",
+      "parent": null,
+      "badge": null,
+      "fill": "#FFFFFF"
+    },
+    {
+      "id": "state",
+      "title": "运行状态库",
+      "body": "Runner 管请求 · Runtime 管任务 · 写入协调器管操作",
+      "x": 440,
+      "y": 1040,
+      "w": 840,
+      "h": 150,
+      "accent": "#B3B3B3",
+      "parent": null,
+      "badge": null,
+      "fill": "#FFFFFF"
+    },
+    {
+      "id": "assets",
+      "title": "版本化配置与资产",
+      "body": "Skill / Prompt / Tool Schema · 每个任务绑定版本",
+      "x": 1440,
+      "y": 1040,
+      "w": 880,
+      "h": 150,
+      "accent": "#B3B3B3",
+      "parent": null,
+      "badge": null,
+      "fill": "#FFFFFF"
+    }
+  ],
+  "texts": [
+    {
+      "id": "app-caption",
+      "text": "同一 Spring Boot 进程；模块可以独立演进，无需先拆微服务。",
+      "x": 440,
+      "y": 327,
+      "w": 1300,
+      "size": 24,
+      "bold": false,
+      "color": "#505B6C"
+    },
+    {
+      "id": "shared-model",
+      "text": "Runtime 与结果模块按需复用模型网关；模型仅提出决策，由代码执行。",
+      "x": 850,
+      "y": 866,
+      "w": 920,
+      "size": 24,
+      "bold": false,
+      "color": "#505B6C"
+    },
+    {
+      "id": "asset-scope",
+      "text": "发布配置供编排器与 Runtime 加载",
+      "x": 1470,
+      "y": 985,
+      "w": 790,
+      "size": 24,
+      "bold": false,
+      "color": "#505B6C"
+    }
+  ],
+  "edges": [
+    {
+      "a": "client",
+      "b": "runner",
+      "label": "",
+      "sides": [
+        "RIGHT",
+        "LEFT"
+      ],
+      "dashed": false,
+      "both": false,
+      "color": "#757575"
+    },
+    {
+      "a": "runner",
+      "b": "router",
+      "label": "",
+      "sides": [
+        "RIGHT",
+        "LEFT"
+      ],
+      "dashed": false,
+      "both": false,
+      "color": "#757575"
+    },
+    {
+      "a": "router",
+      "b": "model",
+      "label": "",
+      "sides": [
+        "RIGHT",
+        "LEFT"
+      ],
+      "dashed": false,
+      "both": false,
+      "color": "#757575"
+    },
+    {
+      "a": "model",
+      "b": "provider",
+      "label": "模型 API",
+      "sides": [
+        "RIGHT",
+        "LEFT"
+      ],
+      "dashed": false,
+      "both": false,
+      "color": "#757575"
+    },
+    {
+      "a": "router",
+      "b": "runtime",
+      "label": "分发",
+      "sides": [
+        "BOTTOM",
+        "TOP"
+      ],
+      "dashed": false,
+      "both": false,
+      "color": "#757575"
+    },
+    {
+      "a": "runtime",
+      "b": "tools",
+      "label": "工具调用",
+      "sides": [
+        "RIGHT",
+        "LEFT"
+      ],
+      "dashed": false,
+      "both": false,
+      "color": "#757575"
+    },
+    {
+      "a": "tools",
+      "b": "external",
+      "label": "HTTP / RPC",
+      "sides": [
+        "RIGHT",
+        "LEFT"
+      ],
+      "dashed": false,
+      "both": false,
+      "color": "#757575"
+    },
+    {
+      "a": "runtime",
+      "b": "result",
+      "label": "结果",
+      "sides": [
+        "LEFT",
+        "RIGHT"
+      ],
+      "dashed": false,
+      "both": false,
+      "color": "#757575"
+    },
+    {
+      "a": "result",
+      "b": "runner",
+      "label": "最终结果",
+      "sides": [
+        "TOP",
+        "BOTTOM"
+      ],
+      "dashed": false,
+      "both": false,
+      "color": "#757575"
+    },
+    {
+      "a": "app",
+      "b": "state",
+      "label": "持久化状态",
+      "sides": [
+        "BOTTOM",
+        "TOP"
+      ],
+      "dashed": true,
+      "both": false,
+      "color": "#757575"
+    }
+  ],
+  "paths": []
+}

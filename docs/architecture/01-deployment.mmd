@@ -1,0 +1,28 @@
+flowchart LR
+subgraph client ["用户入口"]
+  webClient["Agent 交互入口"]
+end
+subgraph gateway ["生产接入"]
+  apiGateway["HTTPS 接入与限流"]
+end
+subgraph service ["应用部署"]
+  agentApp["Agent 应用服务（Spring Boot）"]
+end
+subgraph datastore ["持久化"]
+  agentStore["会话、任务与操作存储"]
+end
+subgraph external ["依赖与运行保障"]
+  identityService["统一登录与租户权限"]
+  businessApi["业务 API 与外部服务"]
+  modelApi["模型 API"]
+  secretStore["密钥与环境配置"]
+  telemetry["日志、指标、链路与告警"]
+end
+webClient -->|"HTTPS 请求"| apiGateway
+apiGateway -->|"路由到应用实例"| agentApp
+agentApp -->|"读写会话、操作、结果与审计"| agentStore
+agentApp -.->|"登录系统：校验身份与租户权限"| identityService
+agentApp -.->|"业务服务：执行受控工具调用"| businessApi
+agentApp -.->|"模型：意图提取与受控工具选择"| modelApi
+agentApp -.->|"配置：读取服务端凭证与版本"| secretStore
+agentApp -.->|"监控：上报脱敏事件与耗时"| telemetry

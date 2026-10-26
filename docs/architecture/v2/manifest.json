@@ -1,0 +1,102 @@
+{
+  "date": "2026-10-23",
+  "file_key": "aWaXku9UJ1Z8yNxp7Xjh06",
+  "scope": "Architecture documents only; target design is not an implementation claim.",
+  "views": [
+    {
+      "key": "05a-component-map",
+      "title": "05A  /  组件关系",
+      "node_id": "33:574",
+      "figma_url": "https://www.figma.com/board/aWaXku9UJ1Z8yNxp7Xjh06?node-id=33-574",
+      "image": "05a-component-map.png",
+      "spec": "05a-component-map.json",
+      "source": "05a-component-map.figjam.js",
+      "canvas": [
+        2400,
+        1350
+      ],
+      "png_size": [
+        2480,
+        1430
+      ]
+    },
+    {
+      "key": "05b-execution-mechanism",
+      "title": "05B  /  执行机制",
+      "node_id": "33:668",
+      "figma_url": "https://www.figma.com/board/aWaXku9UJ1Z8yNxp7Xjh06?node-id=33-668",
+      "image": "05b-execution-mechanism.png",
+      "spec": "05b-execution-mechanism.json",
+      "source": "05b-execution-mechanism.figjam.js",
+      "canvas": [
+        2400,
+        1350
+      ],
+      "png_size": [
+        2480,
+        1430
+      ]
+    },
+    {
+      "key": "06a-technology-map",
+      "title": "06A  /  技术栈映射",
+      "node_id": "34:652",
+      "figma_url": "https://www.figma.com/board/aWaXku9UJ1Z8yNxp7Xjh06?node-id=34-652",
+      "image": "06a-technology-map.png",
+      "spec": "06a-technology-map.json",
+      "source": "06a-technology-map.figjam.js",
+      "canvas": [
+        2400,
+        1350
+      ],
+      "png_size": [
+        2480,
+        1430
+      ]
+    },
+    {
+      "key": "06b-development-delivery",
+      "title": "06B  /  开发与交付",
+      "node_id": "34:707",
+      "figma_url": "https://www.figma.com/board/aWaXku9UJ1Z8yNxp7Xjh06?node-id=34-707",
+      "image": "06b-development-delivery.png",
+      "spec": "06b-development-delivery.json",
+      "source": "06b-development-delivery.figjam.js",
+      "canvas": [
+        2400,
+        1350
+      ],
+      "png_size": [
+        2480,
+        1430
+      ]
+    },
+    {
+      "key": "06c-deployment-topology",
+      "title": "06C  /  部署拓扑",
+      "node_id": "34:781",
+      "figma_url": "https://www.figma.com/board/aWaXku9UJ1Z8yNxp7Xjh06?node-id=34-781",
+      "image": "06c-deployment-topology.png",
+      "spec": "06c-deployment-topology.json",
+      "source": "06c-deployment-topology.figjam.js",
+      "canvas": [
+        2400,
+        1350
+      ],
+      "png_size": [
+        2480,
+        1430
+      ]
+    }
+  ],
+  "appendices": [
+    {
+      "node_id": "23:372",
+      "description": "Original 05 module and contract details; current relationships are defined by 05A and 05B."
+    },
+    {
+      "node_id": "29:481",
+      "description": "Original 06 technology details and developer commands."
+    }
+  ]
+}

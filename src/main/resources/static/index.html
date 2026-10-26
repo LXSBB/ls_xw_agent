@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="查询当前校区的课表、学员课时、任务完成情况及班级，查看实际执行结果。">
+  <title>教务助手 · ReAct Demo</title>
+  <link rel="stylesheet" href="/app.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="/" aria-label="教务助手首页"><span class="brand-mark">教</span><span>教务助手<small>SPRING AI · REACT DEMO</small></span></a>
+    <button class="new-chat" id="new-chat" type="button"><span aria-hidden="true">＋</span> 新对话</button>
+    <div class="nav-label">工作空间</div>
+    <div class="nav-current"><span class="nav-dot" aria-hidden="true"></span> 当前会话 <span class="live-label">本地</span></div>
+    <div class="sidebar-note"><span class="note-icon" aria-hidden="true">↗</span><p>从一句话开始<br><span>让助手查找信息，整理结果。</span></p></div>
+    <div class="model-card"><span class="model-eyebrow">当前模型</span><strong>DeepSeek</strong><span id="sidebar-model">V4.1-Flash-1017</span><div class="model-divider"></div><span class="privacy-note">密钥仅保存在本地服务端</span></div>
+    <footer class="sidebar-footer">校务查询助手 <span>v0.3</span></footer>
+  </aside>
+
+  <main class="workspace">
+    <header class="topbar">
+      <div><span class="breadcrumb">工作空间 <span aria-hidden="true">/</span></span> <strong>教务对话</strong></div>
+      <div class="topbar-actions"><label class="sr-only" for="conversation-select">历史会话（最近 50 个）</label><select id="conversation-select" aria-label="历史会话"></select><button class="clear-button" id="reload-chat" type="button">刷新记录</button><span class="connection" id="connection"><i aria-hidden="true"></i><span>正在连接</span></span><button class="clear-button" id="clear-chat" type="button" title="删除当前会话及其已保存的记录">清空会话</button></div>
+    </header>
+
+    <section class="conversation" id="conversation" aria-label="对话内容">
+      <div class="welcome" id="welcome">
+        <div class="welcome-icon" aria-hidden="true"><svg width="34" height="34" viewBox="0 0 32 32" fill="none"><path d="M8 8h16v12H14l-6 5V8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 12h8M12 16h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+        <div class="eyebrow">你的校务助手</div>
+        <h1>今天有什么需要帮忙？</h1>
+        <p>查课表、查学员课时、查任务完成情况。<br>说出老师、学员或班级名称，查看当前校区的真实数据。</p>
+        <div class="suggestions">
+          <button class="suggestion" data-message="查询当前校区今天我有权限查看的课表" type="button"><span class="suggestion-icon" aria-hidden="true">▤</span><strong>查课表</strong><span>按教师、班级或当前校区查询</span><i aria-hidden="true">↗</i></button>
+          <button class="suggestion" data-message="查询学员的剩余课时，学员姓名是：" data-fill type="button"><span class="suggestion-icon" aria-hidden="true">◷</span><strong>查课时</strong><span>剩余课时与课时消耗明细</span><i aria-hidden="true">↗</i></button>
+          <button class="suggestion" data-message="查询当前账号可见的已发布任务及分发对象" type="button"><span class="suggestion-icon" aria-hidden="true">☑</span><strong>查任务</strong><span>分发班级、完成情况与完成率</span><i aria-hidden="true">↗</i></button>
+          <button class="suggestion" data-message="查询我的班级" type="button"><span class="suggestion-icon" aria-hidden="true">▦</span><strong>我的班级</strong><span>查看我参与管理的班级</span><i aria-hidden="true">↗</i></button>
+          <button class="suggestion" data-message="查询当前机构的所有班级" type="button"><span class="suggestion-icon" aria-hidden="true">◎</span><strong>所有班级</strong><span>查看当前账号可见的机构班级</span><i aria-hidden="true">↗</i></button>
+          <button class="suggestion" data-message="创建一个班级，名称是：" data-fill type="button"><span class="suggestion-icon" aria-hidden="true">＋</span><strong>创建班级</strong><span>填写名称，班主任默认为当前账号</span><i aria-hidden="true">↗</i></button>
+        </div>
+        <div class="sample-notice"><span aria-hidden="true">ⓘ</span> 查询限当前校区及账号权限范围，跨校区暂未开放；创建班级会保存到当前机构</div>
+      </div>
+      <div class="messages" id="messages" role="log" aria-live="polite" aria-relevant="additions text"></div>
+    </section>
+
+    <div class="composer-area">
+      <div class="model-caption"><span class="model-dot" aria-hidden="true"></span><span id="model-name">DeepSeek-V4.1-Flash-1017</span><span class="model-mode">工具调用</span></div>
+      <form class="composer" id="chat-form">
+        <label class="sr-only" for="message-input">输入消息</label>
+        <textarea id="message-input" rows="2" maxlength="2000" placeholder="输入你的问题，也可以继续追问…" required></textarea>
+        <div class="composer-bottom"><span class="keyboard-hint">Enter 发送 <span>·</span> Shift + Enter 换行</span><div class="send-controls"><span id="char-count">0 / 2000</span><button class="send-button" id="send-button" type="submit" disabled><span>发送</span><svg width="17" height="17" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 15V5M5 10l5-5 5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></div>
+      </form>
+      <p class="composer-note" id="memory-note" role="status">正在读取已保存的会话…</p>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,47 @@
+flowchart TD
+subgraph preparation ["01 执行前：持久化操作记录"]
+  draft["明确操作意图、权限与参数"]
+  operation{"原子受理 operationId"}
+  replay["相同身份与参数：复用已完成结果"]
+  pending["执行中或结果不明：返回状态，不重复提交"]
+  conflict["相同标识但参数改变：拒绝冲突"]
+  submitting["先保存 SUBMITTING，再调用接口"]
+end
+subgraph remoteCall ["02 远端调用与结果校验"]
+  writeAction["提交一次写入请求"]
+  outcome{"接口结果"}
+  verify["根据操作凭据核实结果"]
+  match{"实际结果符合预期？"}
+end
+subgraph durableResult ["03 保存结果与恢复核实"]
+  success["保存 SUCCEEDED 与可复用结果"]
+  unverified["保存成功待核实状态，不重复执行"]
+  failed["保存 FAILED，仅限已确认失败"]
+  unknown["保存 UNKNOWN，进入核实流程"]
+  reconcile["按可靠关联证据核实，接口契约待确认"]
+  recoveryResult["保存核实结论；无可靠证据则维持 UNKNOWN"]
+  result["返回已保存的结果或当前状态"]
+end
+draft --> operation
+operation -->|"已完成且参数一致"| replay --> result
+operation -->|"执行中或未知"| pending --> result
+operation -->|"参数冲突"| conflict --> result
+operation -->|"首次受理成功"| submitting --> writeAction --> outcome
+outcome -->|"成功且可核实"| verify --> match
+outcome -->|"成功但缺少核实依据"| unverified
+outcome -->|"明确业务失败"| failed
+outcome -->|"超时、断连或响应无法确认"| unknown
+match -->|"一致"| success
+match -->|"不符合或核实失败"| unverified
+success --> result
+unverified --> result
+failed --> result
+unknown --> result
+unknown -.->|"后台恢复"| reconcile
+reconcile -.->|"重新查询并校验"| recoveryResult
+style preparation fill:#C2E5FF,stroke:#3DADFF
+style remoteCall fill:#CDF4D3,stroke:#66D575
+style durableResult fill:#C6FAF6,stroke:#5AD8CC
+style unknown fill:#FFE0C2,stroke:#FF9E42
+style unverified fill:#FFECBD,stroke:#FFC943
+style failed fill:#FFCDC2,stroke:#FF7556

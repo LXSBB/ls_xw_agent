@@ -1,0 +1,500 @@
+{
+  "key": "06a-technology-map",
+  "title": "06A  /  技术栈映射",
+  "subtitle": "沿用当前 Java 项目补齐上线能力；颜色标职责，标签标实现状态。",
+  "position": {
+    "x": 12060,
+    "y": -7200
+  },
+  "width": 2400,
+  "height": 1350,
+  "footer": "依据：pom.xml / application.yml / 源码入口。版本沿用当前项目；数据库规范与 IAM 协议待确认。",
+  "groups": [
+    {
+      "id": "row0",
+      "x": 80,
+      "y": 332,
+      "w": 2240,
+      "h": 100,
+      "fill": "#F9F9F9",
+      "title": null
+    },
+    {
+      "id": "accent0",
+      "x": 80,
+      "y": 332,
+      "w": 7,
+      "h": 100,
+      "fill": "#3DADFF",
+      "title": null
+    },
+    {
+      "id": "badge0",
+      "x": 1950,
+      "y": 357,
+      "w": 270,
+      "h": 49,
+      "fill": "#FFFFFF",
+      "title": null
+    },
+    {
+      "id": "row1",
+      "x": 80,
+      "y": 440,
+      "w": 2240,
+      "h": 100,
+      "fill": "#FFFFFF",
+      "title": null
+    },
+    {
+      "id": "accent1",
+      "x": 80,
+      "y": 440,
+      "w": 7,
+      "h": 100,
+      "fill": "#3DADFF",
+      "title": null
+    },
+    {
+      "id": "badge1",
+      "x": 1950,
+      "y": 465,
+      "w": 270,
+      "h": 49,
+      "fill": "#FFFFFF",
+      "title": null
+    },
+    {
+      "id": "row2",
+      "x": 80,
+      "y": 548,
+      "w": 2240,
+      "h": 100,
+      "fill": "#F9F9F9",
+      "title": null
+    },
+    {
+      "id": "accent2",
+      "x": 80,
+      "y": 548,
+      "w": 7,
+      "h": 100,
+      "fill": "#874FFF",
+      "title": null
+    },
+    {
+      "id": "badge2",
+      "x": 1950,
+      "y": 573,
+      "w": 270,
+      "h": 49,
+      "fill": "#FFFFFF",
+      "title": null
+    },
+    {
+      "id": "row3",
+      "x": 80,
+      "y": 656,
+      "w": 2240,
+      "h": 100,
+      "fill": "#FFFFFF",
+      "title": null
+    },
+    {
+      "id": "accent3",
+      "x": 80,
+      "y": 656,
+      "w": 7,
+      "h": 100,
+      "fill": "#B3B3B3",
+      "title": null
+    },
+    {
+      "id": "badge3",
+      "x": 1950,
+      "y": 681,
+      "w": 270,
+      "h": 49,
+      "fill": "#FFFFFF",
+      "title": null
+    },
+    {
+      "id": "row4",
+      "x": 80,
+      "y": 764,
+      "w": 2240,
+      "h": 100,
+      "fill": "#F9F9F9",
+      "title": null
+    },
+    {
+      "id": "accent4",
+      "x": 80,
+      "y": 764,
+      "w": 7,
+      "h": 100,
+      "fill": "#66D575",
+      "title": null
+    },
+    {
+      "id": "badge4",
+      "x": 1950,
+      "y": 789,
+      "w": 270,
+      "h": 49,
+      "fill": "#FFFFFF",
+      "title": null
+    },
+    {
+      "id": "row5",
+      "x": 80,
+      "y": 872,
+      "w": 2240,
+      "h": 100,
+      "fill": "#FFFFFF",
+      "title": null
+    },
+    {
+      "id": "accent5",
+      "x": 80,
+      "y": 872,
+      "w": 7,
+      "h": 100,
+      "fill": "#5AD8CC",
+      "title": null
+    },
+    {
+      "id": "badge5",
+      "x": 1950,
+      "y": 897,
+      "w": 270,
+      "h": 49,
+      "fill": "#FFFFFF",
+      "title": null
+    },
+    {
+      "id": "optional",
+      "x": 80,
+      "y": 1040,
+      "w": 2240,
+      "h": 160,
+      "fill": "#FFFBF0",
+      "title": null
+    }
+  ],
+  "cards": [],
+  "texts": [
+    {
+      "id": "col1",
+      "text": "架构职责",
+      "x": 110,
+      "y": 270,
+      "w": 390,
+      "size": 26,
+      "bold": true,
+      "color": "#505B6C"
+    },
+    {
+      "id": "col2",
+      "text": "采用的技术与落点",
+      "x": 570,
+      "y": 270,
+      "w": 1210,
+      "size": 26,
+      "bold": true,
+      "color": "#505B6C"
+    },
+    {
+      "id": "col3",
+      "text": "当前状态",
+      "x": 1950,
+      "y": 270,
+      "w": 320,
+      "size": 26,
+      "bold": true,
+      "color": "#505B6C"
+    },
+    {
+      "id": "role0",
+      "text": "交互入口",
+      "x": 110,
+      "y": 357,
+      "w": 390,
+      "size": 30,
+      "bold": true,
+      "color": "#505B6C"
+    },
+    {
+      "id": "tech0",
+      "text": "HTML / CSS / JavaScript · REST",
+      "x": 570,
+      "y": 342,
+      "w": 1300,
+      "size": 28,
+      "bold": true,
+      "color": "#1E293B"
+    },
+    {
+      "id": "body0",
+      "text": "static/ 与 AgentController；SSE 根据交互需要扩展",
+      "x": 570,
+      "y": 385,
+      "w": 1300,
+      "size": 23,
+      "bold": false,
+      "color": "#505B6C"
+    },
+    {
+      "id": "status0",
+      "text": "已有",
+      "x": 1980,
+      "y": 366,
+      "w": 220,
+      "size": 23,
+      "bold": true,
+      "color": "#505B6C"
+    },
+    {
+      "id": "role1",
+      "text": "应用服务",
+      "x": 110,
+      "y": 465,
+      "w": 390,
+      "size": 30,
+      "bold": true,
+      "color": "#505B6C"
+    },
+    {
+      "id": "tech1",
+      "text": "Java 21 · Spring Boot 4.1.1 · Maven",
+      "x": 570,
+      "y": 450,
+      "w": 1300,
+      "size": 28,
+      "bold": true,
+      "color": "#1E293B"
+    },
+    {
+      "id": "body1",
+      "text": "Web MVC / Validation；继续使用模块化单体与可执行 JAR",
+      "x": 570,
+      "y": 493,
+      "w": 1300,
+      "size": 23,
+      "bold": false,
+      "color": "#505B6C"
+    },
+    {
+      "id": "status1",
+      "text": "已有",
+      "x": 1980,
+      "y": 474,
+      "w": 220,
+      "size": 23,
+      "bold": true,
+      "color": "#505B6C"
+    },
+    {
+      "id": "role2",
+      "text": "模型与工具",
+      "x": 110,
+      "y": 573,
+      "w": 390,
+      "size": 30,
+      "bold": true,
+      "color": "#505B6C"
+    },
+    {
+      "id": "tech2",
+      "text": "Spring AI 2.0.1 · ChatModel · ToolCallingManager",
+      "x": 570,
+      "y": 558,
+      "w": 1300,
+      "size": 28,
+      "bold": true,
+      "color": "#1E293B"
+    },
+    {
+      "id": "body2",
+      "text": "@Tool / ToolCallback + API 适配器；网关治理仍需补齐",
+      "x": 570,
+      "y": 601,
+      "w": 1300,
+      "size": 23,
+      "bold": false,
+      "color": "#505B6C"
+    },
+    {
+      "id": "status2",
+      "text": "基础已有",
+      "x": 1980,
+      "y": 582,
+      "w": 220,
+      "size": 23,
+      "bold": true,
+      "color": "#505B6C"
+    },
+    {
+      "id": "role3",
+      "text": "持久状态",
+      "x": 110,
+      "y": 681,
+      "w": 390,
+      "size": 30,
+      "bold": true,
+      "color": "#505B6C"
+    },
+    {
+      "id": "tech3",
+      "text": "PostgreSQL + Spring JDBC + Flyway",
+      "x": 570,
+      "y": 666,
+      "w": 1300,
+      "size": 28,
+      "bold": true,
+      "color": "#1E293B"
+    },
+    {
+      "id": "body3",
+      "text": "建议基线；保存请求、会话、任务、操作与可重放结果",
+      "x": 570,
+      "y": 709,
+      "w": 1300,
+      "size": 23,
+      "bold": false,
+      "color": "#505B6C"
+    },
+    {
+      "id": "status3",
+      "text": "待新增",
+      "x": 1980,
+      "y": 690,
+      "w": 220,
+      "size": 23,
+      "bold": true,
+      "color": "#505B6C"
+    },
+    {
+      "id": "role4",
+      "text": "身份与权限",
+      "x": 110,
+      "y": 789,
+      "w": 390,
+      "size": 30,
+      "bold": true,
+      "color": "#505B6C"
+    },
+    {
+      "id": "tech4",
+      "text": "Spring Security + IAM 适配器",
+      "x": 570,
+      "y": 774,
+      "w": 1300,
+      "size": 28,
+      "bold": true,
+      "color": "#1E293B"
+    },
+    {
+      "id": "body4",
+      "text": "接入用户 / 租户 / 权限；IAM 支持 JWT 时再用 Resource Server",
+      "x": 570,
+      "y": 817,
+      "w": 1300,
+      "size": 23,
+      "bold": false,
+      "color": "#505B6C"
+    },
+    {
+      "id": "status4",
+      "text": "待新增",
+      "x": 1980,
+      "y": 798,
+      "w": 220,
+      "size": 23,
+      "bold": true,
+      "color": "#505B6C"
+    },
+    {
+      "id": "role5",
+      "text": "观测与运维",
+      "x": 110,
+      "y": 897,
+      "w": 390,
+      "size": 30,
+      "bold": true,
+      "color": "#505B6C"
+    },
+    {
+      "id": "tech5",
+      "text": "Actuator → Micrometer / OpenTelemetry → 监控平台",
+      "x": 570,
+      "y": 882,
+      "w": 1300,
+      "size": 28,
+      "bold": true,
+      "color": "#1E293B"
+    },
+    {
+      "id": "body5",
+      "text": "已有 health 与基础日志；指标、链路和告警待接入",
+      "x": 570,
+      "y": 925,
+      "w": 1300,
+      "size": 23,
+      "bold": false,
+      "color": "#505B6C"
+    },
+    {
+      "id": "status5",
+      "text": "部分已有",
+      "x": 1980,
+      "y": 906,
+      "w": 220,
+      "size": 23,
+      "bold": true,
+      "color": "#505B6C"
+    },
+    {
+      "id": "optional-title",
+      "text": "按需启用",
+      "x": 110,
+      "y": 1064,
+      "w": 340,
+      "size": 30,
+      "bold": true,
+      "color": "#505B6C"
+    },
+    {
+      "id": "optional-items",
+      "text": "RAG / pgvector         Redis         Outbox / MQ         MCP",
+      "x": 570,
+      "y": 1064,
+      "w": 1660,
+      "size": 29,
+      "bold": true,
+      "color": "#505B6C"
+    },
+    {
+      "id": "optional-use",
+      "text": "知识检索                         缓存 / 限流      异步投递                  工具协议",
+      "x": 570,
+      "y": 1112,
+      "w": 1660,
+      "size": 24,
+      "bold": false,
+      "color": "#505B6C"
+    },
+    {
+      "id": "optional-note",
+      "text": "有明确场景再引入；首版不以向量库、消息队列或多 Agent 框架为前提。",
+      "x": 570,
+      "y": 1154,
+      "w": 1660,
+      "size": 23,
+      "bold": false,
+      "color": "#505B6C"
+    }
+  ],
+  "edges": [],
+  "paths": []
+}

@@ -1,0 +1,78 @@
+server:
+  # Demo 没有登录鉴权，仅监听本机。
+  address: 127.0.0.1
+  port: ${SERVER_PORT:8080}
+
+spring:
+  datasource:
+    url: ${AGENT_MEMORY_DB_URL}
+    username: ${AGENT_MEMORY_DB_USERNAME}
+    password: ${AGENT_MEMORY_DB_PASSWORD}
+    hikari:
+      maximum-pool-size: 5
+      connection-timeout: 5000
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:db/memory-schema.sql
+      encoding: UTF-8
+  application:
+    name: spring-ai-react-demo
+  mvc:
+    problemdetails:
+      enabled: true
+  ai:
+    model:
+      embedding: none
+      image: none
+      audio:
+        speech: none
+        transcription: none
+      moderation: none
+    openai:
+      api-key: ${LLM_API_KEY:${DEEPSEEK_API_KEY:}}
+      # SDK 会追加 /chat/completions，Base URL 不要包含该路径。
+      base-url: ${LLM_BASE_URL:https://api.deepseek.com}
+      timeout: 30s
+      # Demo 关闭 SDK 自动重试，便于理解一次请求实际调用了几轮模型。
+      max-retries: 0
+      chat:
+        # 官方名称 deepseek-flash 对应 DeepSeek-V4.1-Flash-1017。
+        model: ${LLM_MODEL:deepseek-flash}
+        temperature: 0.2
+        max-tokens: 1200
+        parallel-tool-calls: false
+        # 此 Demo 演示工具循环，使用非思考模式，无需回传 reasoning_content。
+        extra-body:
+          thinking:
+            type: disabled
+    retry:
+      max-attempts: 1
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+demo:
+  agent:
+    # 包含前置意图识别和最后回答，达到上限后停止，不继续执行工具。
+    max-model-calls: 6
+
+# 本机单账号联调配置。多人使用时必须改为逐请求的登录上下文。
+lingshi:
+  social-base-url: ${LINGSHI_SOCIAL_BASE_URL:https://esastage2.51tyty.com/social/services/rest}
+  token: ${LINGSHI_TOKEN:}
+  inst-id: ${LINGSHI_INST_ID:}
+  server-id: ${LINGSHI_SERVER_ID:}
+  user-id: ${LINGSHI_USER_ID:}
+  inst-code: ${LINGSHI_INST_CODE:}
+  headers:
+    username: ${LINGSHI_USERNAME:}
+    AppType: ${LINGSHI_APP_TYPE:}
+    AppVersion: ${LINGSHI_APP_VERSION:}
+    DeviceType: ${LINGSHI_DEVICE_TYPE:}
+    DeviceUniqueId: ${LINGSHI_DEVICE_ID:}
+    lan: ${LINGSHI_LANGUAGE:ch}
+    timeZone: ${LINGSHI_TIME_ZONE:GMT+0800}

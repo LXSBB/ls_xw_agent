@@ -1,0 +1,922 @@
+{
+  "key": "05-agent-components",
+  "rootId": "23:372",
+  "backupId": "39:697",
+  "title": "05  /  Agent 组件与运行架构",
+  "subtitle": "通用场景 · 完整组件、执行关系与状态归属｜上线目标设计，非现状全量实现",
+  "position": {
+    "x": 6700,
+    "y": -3700
+  },
+  "width": 3600,
+  "height": 3820,
+  "footer": "部署边界：模块化 Spring Boot 应用 + 数据库；模型、IAM 与业务 API 复用现有平台。RAG、MCP、异步通知和人工接入按需启用。",
+  "groups": [
+    {
+      "id": "guide",
+      "x": 80,
+      "y": 300,
+      "w": 3440,
+      "h": 92,
+      "fill": "#F9F9F9",
+      "title": null,
+      "subtitle": null,
+      "parent": null,
+      "size": 40
+    },
+    {
+      "id": "channels",
+      "x": 80,
+      "y": 430,
+      "w": 2420,
+      "h": 94,
+      "fill": "#FFFFFF",
+      "title": null,
+      "subtitle": null,
+      "parent": null,
+      "size": 40
+    },
+    {
+      "id": "runner",
+      "x": 80,
+      "y": 560,
+      "w": 2420,
+      "h": 360,
+      "fill": "#F9F9F9",
+      "title": "01  请求接入 · Runner",
+      "subtitle": "代码受理请求并持有可信上下文；每个 requestId 对应可查询的处理状态。",
+      "parent": null,
+      "size": 40,
+      "subSize": 25
+    },
+    {
+      "id": "router",
+      "x": 80,
+      "y": 1000,
+      "w": 2420,
+      "h": 410,
+      "fill": "#F5FBFF",
+      "title": "02  识别与分发 · Root Orchestrator",
+      "subtitle": "模型生成候选路由，代码决定范围、能力与执行权限。",
+      "parent": null,
+      "size": 40,
+      "subSize": 25
+    },
+    {
+      "id": "runtime",
+      "x": 80,
+      "y": 1480,
+      "w": 2420,
+      "h": 960,
+      "fill": "#EBFFEE",
+      "title": "03  场景执行 · Skill Runtime",
+      "subtitle": "同一服务中的逻辑模块；Workflow 与 ReAct 共用工具网关和任务预算。",
+      "parent": null,
+      "size": 40,
+      "subSize": 25
+    },
+    {
+      "id": "result",
+      "x": 80,
+      "y": 2540,
+      "w": 2420,
+      "h": 360,
+      "fill": "#F1FEFD",
+      "title": "04  统一结果 · Result Composer",
+      "subtitle": "正常执行、范围外、暂未支持与澄清，都进入同一结果出口。",
+      "parent": null,
+      "size": 40,
+      "subSize": 25
+    },
+    {
+      "id": "commit",
+      "x": 80,
+      "y": 2980,
+      "w": 2420,
+      "h": 360,
+      "fill": "#F9F9F9",
+      "title": "05  保存与下发 · State Commit & Delivery",
+      "subtitle": "最终响应以保存结果为准；写入操作有独立记录，本地提交不包含远端事务。",
+      "parent": null,
+      "size": 40,
+      "subSize": 25
+    },
+    {
+      "id": "contract-request",
+      "x": 2600,
+      "y": 430,
+      "w": 920,
+      "h": 470,
+      "fill": "#F9F9F9",
+      "title": "请求与可信上下文",
+      "subtitle": null,
+      "parent": null,
+      "size": 40
+    },
+    {
+      "id": "control",
+      "x": 2600,
+      "y": 1000,
+      "w": 920,
+      "h": 380,
+      "fill": "#F5FBFF",
+      "title": "控制面与版本资产",
+      "subtitle": null,
+      "parent": null,
+      "size": 40
+    },
+    {
+      "id": "model",
+      "x": 2600,
+      "y": 1480,
+      "w": 920,
+      "h": 440,
+      "fill": "#F8F5FF",
+      "title": "共享模型网关与执行预算",
+      "subtitle": null,
+      "parent": null,
+      "size": 40
+    },
+    {
+      "id": "knowledge",
+      "x": 2600,
+      "y": 2000,
+      "w": 920,
+      "h": 440,
+      "fill": "#FFF7F0",
+      "title": "事实、工具与知识边界",
+      "subtitle": null,
+      "parent": null,
+      "size": 40
+    },
+    {
+      "id": "contract-result",
+      "x": 2600,
+      "y": 2540,
+      "w": 920,
+      "h": 340,
+      "fill": "#F1FEFD",
+      "title": "统一结果与操作状态",
+      "subtitle": null,
+      "parent": null,
+      "size": 40
+    },
+    {
+      "id": "governance",
+      "x": 2600,
+      "y": 2980,
+      "w": 920,
+      "h": 340,
+      "fill": "#F9F9F9",
+      "title": "权限、监控与发布治理",
+      "subtitle": null,
+      "parent": null,
+      "size": 40
+    },
+    {
+      "id": "stores",
+      "x": 80,
+      "y": 3420,
+      "w": 3440,
+      "h": 280,
+      "fill": "#F9F9F9",
+      "title": "状态与资产归属 · 可使用同一数据库按职责隔离",
+      "subtitle": null,
+      "parent": null,
+      "size": 40
+    }
+  ],
+  "cards": [
+    {
+      "id": "adapter",
+      "title": "渠道与协议适配",
+      "body": "统一消息与交互动作\nHTTP / SSE / 事件回调\n格式、大小与请求限流",
+      "x": 130,
+      "y": 691,
+      "w": 530,
+      "h": 208,
+      "accent": "#B3B3B3",
+      "parent": "runner",
+      "size": 28,
+      "titleSize": 32
+    },
+    {
+      "id": "identity",
+      "title": "身份上下文",
+      "body": "认证 → 用户 / 租户 / 权限\n校验会话与数据归属\n凭证仅在服务端使用",
+      "x": 710,
+      "y": 691,
+      "w": 530,
+      "h": 208,
+      "accent": "#B3B3B3",
+      "parent": "runner",
+      "size": 28,
+      "titleSize": 32
+    },
+    {
+      "id": "request",
+      "title": "请求原子受理",
+      "body": "登记 requestId\n完成 → 重放；处理中 → 状态\n重复请求不重复执行",
+      "x": 1290,
+      "y": 691,
+      "w": 530,
+      "h": 208,
+      "accent": "#B3B3B3",
+      "parent": "runner",
+      "size": 28,
+      "titleSize": 32
+    },
+    {
+      "id": "context",
+      "title": "上下文装配",
+      "body": "读取可信任务版本与最近对话\n建立 traceId / deadline\n接续会话中的已有任务",
+      "x": 1870,
+      "y": 691,
+      "w": 530,
+      "h": 208,
+      "accent": "#B3B3B3",
+      "parent": "runner",
+      "size": 28,
+      "titleSize": 32
+    },
+    {
+      "id": "event",
+      "title": "交互事件优先",
+      "body": "校验 actionId 与任务版本\n已知动作恢复目标任务\n自然语言进入语义分类",
+      "x": 130,
+      "y": 1131,
+      "w": 530,
+      "h": 218,
+      "accent": "#3DADFF",
+      "parent": "router",
+      "size": 27,
+      "titleSize": 32
+    },
+    {
+      "id": "intent",
+      "title": "语义分类与抽取",
+      "body": "模型理解领域、意图与参数\n结合最近对话理解追问\n输出结构化候选路由",
+      "x": 710,
+      "y": 1131,
+      "w": 530,
+      "h": 218,
+      "accent": "#874FFF",
+      "parent": "router",
+      "size": 27,
+      "titleSize": 32
+    },
+    {
+      "id": "policy",
+      "title": "范围与能力策略",
+      "body": "范围外：目前无法回答相关问题\n未支持说明能力；不明则澄清\n支持且授权 → 绑定执行任务",
+      "x": 1290,
+      "y": 1131,
+      "w": 530,
+      "h": 218,
+      "accent": "#3DADFF",
+      "parent": "router",
+      "size": 27,
+      "titleSize": 32
+    },
+    {
+      "id": "dispatch",
+      "title": "Skill 绑定与分发",
+      "body": "绑定 Skill / Workflow 版本\n核验启用状态与依赖\n仅独立只读任务允许并行",
+      "x": 1870,
+      "y": 1131,
+      "w": 530,
+      "h": 218,
+      "accent": "#3DADFF",
+      "parent": "router",
+      "size": 27,
+      "titleSize": 32
+    },
+    {
+      "id": "loader",
+      "title": "资产与版本加载",
+      "body": "scope / facts / tools · 输入输出 Schema\n锁定 Prompt、流程和发布版本快照",
+      "x": 130,
+      "y": 1617,
+      "w": 730,
+      "h": 180,
+      "accent": "#66D575",
+      "parent": "runtime",
+      "size": 28,
+      "titleSize": 32
+    },
+    {
+      "id": "task",
+      "title": "任务状态管理",
+      "body": "taskId / taskVersion · 续接、暂停与终止\n并发更新采用版本检查与原子状态迁移",
+      "x": 910,
+      "y": 1617,
+      "w": 730,
+      "h": 180,
+      "accent": "#66D575",
+      "parent": "runtime",
+      "size": 28,
+      "titleSize": 32
+    },
+    {
+      "id": "prefetch",
+      "title": "依赖事实预取",
+      "body": "仅取当前步骤所需数据，授权后并发只读\n保留事实来源、有效时间与可追溯证据",
+      "x": 1690,
+      "y": 1617,
+      "w": 730,
+      "h": 180,
+      "accent": "#66D575",
+      "parent": "runtime",
+      "size": 28,
+      "titleSize": 32
+    },
+    {
+      "id": "workflow",
+      "title": "Workflow 执行器",
+      "body": "确定步骤与依赖顺序\n缺参则暂停；按需调用模型",
+      "x": 130,
+      "y": 1890,
+      "w": 460,
+      "h": 180,
+      "accent": "#66D575",
+      "parent": "runtime",
+      "size": 28,
+      "titleSize": 32
+    },
+    {
+      "id": "react",
+      "title": "有界 ReAct",
+      "body": "模型：决策 / ToolCall\n代码：停止、预算与观察回传",
+      "x": 130,
+      "y": 2160,
+      "w": 460,
+      "h": 180,
+      "accent": "#874FFF",
+      "parent": "runtime",
+      "size": 28,
+      "titleSize": 32
+    },
+    {
+      "id": "gateway",
+      "title": "统一工具网关",
+      "body": "白名单 + 参数 Schema\n逐次鉴权、租户与数据范围\n注入凭证、超时与脱敏",
+      "x": 730,
+      "y": 2020,
+      "w": 520,
+      "h": 200,
+      "accent": "#66D575",
+      "parent": "runtime",
+      "size": 28,
+      "titleSize": 32
+    },
+    {
+      "id": "readonly",
+      "title": "只读适配",
+      "body": "授权后访问事实来源\n按读取契约设置重试",
+      "x": 1420,
+      "y": 1890,
+      "w": 470,
+      "h": 180,
+      "accent": "#66D575",
+      "parent": "runtime",
+      "size": 28,
+      "titleSize": 32
+    },
+    {
+      "id": "write",
+      "title": "写入操作协调",
+      "body": "operationId 原子受理\n保存写入意图后调用 API\n结果未知先核实，禁止盲重试",
+      "x": 1420,
+      "y": 2160,
+      "w": 470,
+      "h": 210,
+      "accent": "#FF9E42",
+      "parent": "runtime",
+      "size": 28,
+      "titleSize": 32
+    },
+    {
+      "id": "external",
+      "title": "外部系统适配",
+      "body": "HTTP / RPC / 可选 MCP\n返回业务事实与操作回执\n外部系统保留业务规则",
+      "x": 2040,
+      "y": 2020,
+      "w": 410,
+      "h": 210,
+      "accent": "#B3B3B3",
+      "parent": "runtime",
+      "size": 27,
+      "titleSize": 32
+    },
+    {
+      "id": "normalize",
+      "title": "结果归一与校验",
+      "body": "Schema、状态与工具证据校验\n对齐多任务结果，按证据处理冲突\n保留失败与未完成项",
+      "x": 130,
+      "y": 2671,
+      "w": 530,
+      "h": 208,
+      "accent": "#5AD8CC",
+      "parent": "result",
+      "size": 27,
+      "titleSize": 32
+    },
+    {
+      "id": "compose",
+      "title": "回复生成",
+      "body": "优先模板与结构化卡片\n复杂文本可经模型组织\n不改写写入状态与业务事实",
+      "x": 710,
+      "y": 2671,
+      "w": 530,
+      "h": 208,
+      "accent": "#5AD8CC",
+      "parent": "result",
+      "size": 27,
+      "titleSize": 32
+    },
+    {
+      "id": "guard",
+      "title": "回答检查",
+      "body": "事实与来源一致\n未成功不得表述已完成\n检查范围与敏感字段",
+      "x": 1290,
+      "y": 2671,
+      "w": 530,
+      "h": 208,
+      "accent": "#5AD8CC",
+      "parent": "result",
+      "size": 27,
+      "titleSize": 32
+    },
+    {
+      "id": "interaction",
+      "title": "交互动作封装",
+      "body": "澄清选项与继续操作\nactionId 绑定任务及版本\n人工接入按产品需要启用",
+      "x": 1870,
+      "y": 2671,
+      "w": 530,
+      "h": 208,
+      "accent": "#5AD8CC",
+      "parent": "result",
+      "size": 27,
+      "titleSize": 32
+    },
+    {
+      "id": "uow",
+      "title": "本地状态提交",
+      "body": "事务保存会话、任务版本\n保存回复结果与关联审计\n并发冲突按任务状态处理",
+      "x": 130,
+      "y": 3111,
+      "w": 530,
+      "h": 208,
+      "accent": "#B3B3B3",
+      "parent": "commit",
+      "size": 27,
+      "titleSize": 32
+    },
+    {
+      "id": "respond",
+      "title": "同步响应",
+      "body": "读取已提交的最终结果\nHTTP / SSE final\n支持按 requestId 再获取",
+      "x": 710,
+      "y": 3111,
+      "w": 530,
+      "h": 208,
+      "accent": "#B3B3B3",
+      "parent": "commit",
+      "size": 27,
+      "titleSize": 32
+    },
+    {
+      "id": "outbox",
+      "title": "异步下发［可选］",
+      "body": "结果与 Outbox 同事务保存\n投递重试 + 消费去重\n用于 IM / 异步通知",
+      "x": 1290,
+      "y": 3111,
+      "w": 530,
+      "h": 208,
+      "accent": "#B3B3B3",
+      "parent": "commit",
+      "size": 27,
+      "titleSize": 32
+    },
+    {
+      "id": "recovery",
+      "title": "恢复与核实",
+      "body": "扫描中断任务与未知操作\n按可靠标识查询外部回执\n无依据保持 UNKNOWN",
+      "x": 1870,
+      "y": 3111,
+      "w": 530,
+      "h": 208,
+      "accent": "#B3B3B3",
+      "parent": "commit",
+      "size": 27,
+      "titleSize": 32
+    },
+    {
+      "id": "stateDb",
+      "title": "会话与任务",
+      "body": "Runtime 持有任务状态与版本\n摘要 / 快照 / 恢复位置",
+      "x": 130,
+      "y": 3520,
+      "w": 790,
+      "h": 140,
+      "accent": "#B3B3B3",
+      "parent": "stores",
+      "size": 26,
+      "titleSize": 30
+    },
+    {
+      "id": "opDb",
+      "title": "请求与写操作",
+      "body": "Runner 管请求；协调器管操作\n去重 / 回执 / 可重放结果",
+      "x": 980,
+      "y": 3520,
+      "w": 790,
+      "h": 140,
+      "accent": "#B3B3B3",
+      "parent": "stores",
+      "size": 26,
+      "titleSize": 30
+    },
+    {
+      "id": "assetStore",
+      "title": "配置与资产",
+      "body": "Skill / Prompt / Schema 发布版本\n任务引用不可变快照",
+      "x": 1830,
+      "y": 3520,
+      "w": 790,
+      "h": 140,
+      "accent": "#B3B3B3",
+      "parent": "stores",
+      "size": 26,
+      "titleSize": 30
+    },
+    {
+      "id": "optionalInfra",
+      "title": "按需基础设施",
+      "body": "向量索引 / 缓存 / 消息投递\n有明确场景后再引入",
+      "x": 2680,
+      "y": 3520,
+      "w": 790,
+      "h": 140,
+      "accent": "#B3B3B3",
+      "parent": "stores",
+      "size": 26,
+      "titleSize": 30
+    }
+  ],
+  "texts": [
+    {
+      "id": "guide-t",
+      "text": "阅读顺序：接入 → 路由 → 执行 → 结果 → 提交     ｜     右栏：契约与共享能力     ｜     实线：调用 / 结果；蓝线：短路结果",
+      "x": 112,
+      "y": 326,
+      "w": 3376,
+      "size": 29,
+      "bold": true,
+      "parent": "guide",
+      "color": "#505B6C",
+      "url": null
+    },
+    {
+      "id": "channel-0",
+      "text": "Web / H5",
+      "x": 132,
+      "y": 454,
+      "w": 530,
+      "size": 32,
+      "bold": true,
+      "parent": "channels",
+      "color": "#505B6C",
+      "url": null
+    },
+    {
+      "id": "channel-1",
+      "text": "App / 桌面端",
+      "x": 712,
+      "y": 454,
+      "w": 530,
+      "size": 32,
+      "bold": true,
+      "parent": "channels",
+      "color": "#505B6C",
+      "url": null
+    },
+    {
+      "id": "channel-2",
+      "text": "IM / 协作渠道",
+      "x": 1292,
+      "y": 454,
+      "w": 530,
+      "size": 32,
+      "bold": true,
+      "parent": "channels",
+      "color": "#505B6C",
+      "url": null
+    },
+    {
+      "id": "channel-3",
+      "text": "开放 API / SDK",
+      "x": 1872,
+      "y": 454,
+      "w": 530,
+      "size": 32,
+      "bold": true,
+      "parent": "channels",
+      "color": "#505B6C",
+      "url": null
+    },
+    {
+      "id": "rag-gate",
+      "text": "可选知识路径：通过领域与权限门控后再检索；知识命中不能替代工具执行授权。",
+      "x": 130,
+      "y": 1360,
+      "w": 2320,
+      "size": 24,
+      "bold": false,
+      "parent": "router",
+      "color": "#505B6C",
+      "url": null
+    },
+    {
+      "id": "short-label",
+      "text": "范围外 / 未支持 / 澄清 → 结果出口；不调用工具",
+      "x": 120,
+      "y": 1425,
+      "w": 1080,
+      "size": 25,
+      "bold": true,
+      "parent": null,
+      "color": "#357FC4",
+      "url": null
+    },
+    {
+      "id": "runtime-foot",
+      "text": "工具观察沿调用链回传；执行器结束时提交 SkillResult。所有工具结果和检索文本只作数据，不作为指令。",
+      "x": 130,
+      "y": 2385,
+      "w": 2320,
+      "size": 26,
+      "bold": false,
+      "parent": "runtime",
+      "color": "#505B6C",
+      "url": null
+    },
+    {
+      "id": "request-head",
+      "text": "RequestEnvelope",
+      "x": 2640,
+      "y": 520,
+      "w": 840,
+      "size": 30,
+      "bold": true,
+      "parent": "contract-request",
+      "color": "#505B6C",
+      "url": null
+    },
+    {
+      "id": "request-fields",
+      "text": "requestId · sessionId · message / action",
+      "x": 2640,
+      "y": 568,
+      "w": 840,
+      "size": 27,
+      "bold": false,
+      "parent": "contract-request",
+      "color": "#505B6C",
+      "url": null
+    },
+    {
+      "id": "context-head",
+      "text": "RunContext",
+      "x": 2640,
+      "y": 644,
+      "w": 840,
+      "size": 30,
+      "bold": true,
+      "parent": "contract-request",
+      "color": "#505B6C",
+      "url": null
+    },
+    {
+      "id": "context-fields",
+      "text": "userId · tenantId · permissionScope\ntaskId · taskVersion · traceId · deadline\n身份由认证生成；会话与任务由服务端装配。",
+      "x": 2640,
+      "y": 692,
+      "w": 840,
+      "size": 27,
+      "bold": false,
+      "parent": "contract-request",
+      "color": "#505B6C",
+      "url": null
+    },
+    {
+      "id": "control-body",
+      "text": "RouteDecision：domain / intent / skillId / arguments\n结果：执行 / 澄清 / 范围外 / 暂未支持\n\n领域定义 · Skill / Tool Schema · Prompt\n版本发布与灰度绑定；任务持有版本快照。",
+      "x": 2640,
+      "y": 1100,
+      "w": 840,
+      "size": 28,
+      "bold": false,
+      "parent": "control",
+      "color": "#505B6C",
+      "url": null
+    },
+    {
+      "id": "model-body",
+      "text": "分类、规划、回答复用统一模型接口\n结构化输出校验；并发、超时与配额控制\n记录模型 / 配置版本、调用耗时与 Token\n\n内循环：模型轮数、工具数、时间、成本有上限\n重路由：仅范围不匹配且无副作用，限次执行\n模型不持有凭证；实际调用由应用代码执行。",
+      "x": 2640,
+      "y": 1580,
+      "w": 840,
+      "size": 28,
+      "bold": false,
+      "parent": "model",
+      "color": "#505B6C",
+      "url": null
+    },
+    {
+      "id": "knowledge-body",
+      "text": "外部业务 API 保留权威事实与业务规则\n读操作与写操作使用不同的超时 / 重试契约\n远端幂等键与回执查询能力须由接口确认\n\n可选 RAG：权限过滤 → 检索 → 引用证据\n检索无依据可说明缺失，不覆盖实时 API 事实\n知识片段、工具观察均不能提升执行权限。",
+      "x": 2640,
+      "y": 2100,
+      "w": 840,
+      "size": 28,
+      "bold": false,
+      "parent": "knowledge",
+      "color": "#505B6C",
+      "url": null
+    },
+    {
+      "id": "result-body",
+      "text": "SkillResult：kind / payload / evidenceRefs / stateDelta\nANSWER / CLARIFY / UNSUPPORTED\nOUT_OF_SCOPE / HANDOFF / ERROR\n操作状态独立保存：提交中 / 成功 / 成功待核实\n失败 / UNKNOWN；不以回复文本推断写入成功。",
+      "x": 2640,
+      "y": 2640,
+      "w": 840,
+      "size": 27,
+      "bold": false,
+      "parent": "contract-result",
+      "color": "#505B6C",
+      "url": null
+    },
+    {
+      "id": "governance-body",
+      "text": "身份、租户、数据范围与敏感字段脱敏\nTrace：request → task → model / tool\n指标：成功率、延迟、成本、未知操作与积压\n告警处置；回归评估、灰度、配置回滚\n流式草稿可先展示，最终结果以保存状态为准。",
+      "x": 2640,
+      "y": 3080,
+      "w": 840,
+      "size": 28,
+      "bold": false,
+      "parent": "governance",
+      "color": "#505B6C",
+      "url": null
+    }
+  ],
+  "edges": [
+    {
+      "a": "workflow",
+      "b": "gateway",
+      "label": "",
+      "sides": [
+        "RIGHT",
+        "LEFT"
+      ],
+      "dashed": false,
+      "both": false
+    },
+    {
+      "a": "react",
+      "b": "gateway",
+      "label": "",
+      "sides": [
+        "RIGHT",
+        "LEFT"
+      ],
+      "dashed": false,
+      "both": true
+    },
+    {
+      "a": "gateway",
+      "b": "readonly",
+      "label": "读取",
+      "sides": [
+        "RIGHT",
+        "LEFT"
+      ],
+      "dashed": false,
+      "both": false
+    },
+    {
+      "a": "gateway",
+      "b": "write",
+      "label": "写入",
+      "sides": [
+        "RIGHT",
+        "LEFT"
+      ],
+      "dashed": false,
+      "both": false
+    },
+    {
+      "a": "readonly",
+      "b": "external",
+      "label": "",
+      "sides": [
+        "RIGHT",
+        "LEFT"
+      ],
+      "dashed": false,
+      "both": false
+    },
+    {
+      "a": "write",
+      "b": "external",
+      "label": "",
+      "sides": [
+        "RIGHT",
+        "LEFT"
+      ],
+      "dashed": false,
+      "both": false
+    },
+    {
+      "a": "channels",
+      "b": "runner",
+      "label": "统一请求",
+      "sides": [
+        "BOTTOM",
+        "TOP"
+      ],
+      "dashed": false,
+      "both": false
+    },
+    {
+      "a": "runner",
+      "b": "router",
+      "label": "RequestEnvelope + RunContext",
+      "sides": [
+        "BOTTOM",
+        "TOP"
+      ],
+      "dashed": false,
+      "both": false
+    },
+    {
+      "a": "router",
+      "b": "runtime",
+      "label": "已支持且授权的任务",
+      "sides": [
+        "BOTTOM",
+        "TOP"
+      ],
+      "dashed": false,
+      "both": false
+    },
+    {
+      "a": "runtime",
+      "b": "result",
+      "label": "SkillResult + stateDelta",
+      "sides": [
+        "BOTTOM",
+        "TOP"
+      ],
+      "dashed": false,
+      "both": false
+    },
+    {
+      "a": "result",
+      "b": "commit",
+      "label": "ReplyEnvelope + 待保存状态",
+      "sides": [
+        "BOTTOM",
+        "TOP"
+      ],
+      "dashed": false,
+      "both": false
+    }
+  ],
+  "paths": [
+    {
+      "id": "short-result",
+      "points": [
+        [
+          80,
+          1190
+        ],
+        [
+          28,
+          1190
+        ],
+        [
+          28,
+          2710
+        ],
+        [
+          80,
+          2710
+        ]
+      ],
+      "color": "#3DADFF",
+      "dashed": false
+    }
+  ]
+}
